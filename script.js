@@ -3,7 +3,8 @@ function getComputerChoice() {
   return choicesArr[Math.floor(Math.random() * 3)];
 }
 
-function playRound(computerSelection, playerSelection) {
+function playRound(playerSelection) {
+  let computerSelection = getComputerChoice();
   if (computerSelection === playerSelection) {
     score.draw++;
     [...scoreboard][2].innerText = score.draw;
@@ -18,14 +19,8 @@ function playRound(computerSelection, playerSelection) {
     score.loss++;
     [...scoreboard][1].innerText = score.loss;
   }
-}
-
-function startGame(playerSelection) {
-  for (i = 0; i < 5; i++) {
-    let computerSelection = getComputerChoice();
-    playRound(computerSelection, playerSelection);
-  }
-  checkWinner();
+  score.round++;
+  if (score.round == 5) { checkWinner() }
 }
 
 function checkWinner() {
@@ -45,7 +40,7 @@ let btns = document.querySelectorAll("button");
 btns.forEach((button) => {
   button.addEventListener("click", function (e) {
     let playerChoice = e.target.innerText.toLowerCase();
-    startGame(playerChoice);
+    playRound(playerChoice);
   });
 });
 
@@ -53,4 +48,5 @@ let score = {
   win: 0,
   loss: 0,
   draw: 0,
+  round: 0,
 };
